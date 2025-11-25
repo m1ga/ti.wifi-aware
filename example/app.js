@@ -14,19 +14,26 @@ const tf = Ti.UI.createTextField({
   width: 300,
   value:"Titanium SDK: Wi-Fi Aware"
 })
-win.add(label);
-win.add(btn2);
-win.add(tf);
-win.add(btn);
+win.add([label, btn2, tf, btn]);
+
+win.addEventListener("open", function(){
+  var permissions = [ 'android.permission.NEARBY_WIFI_DEVICES' ]
+  Ti.Android.requestPermissions(permissions, function (e) {
+    if (e.success) {
+      if (ti_wifiaware.hasFeature) {
+        ti_wifiaware.isAvailable();
+        ti_wifiaware.publish("com.miga.wifiaware");
+        ti_wifiaware.subscribe("");
+      }
+    }
+  })
+});
 win.open();
 
-label.text = "Feature available:" + ti_wifiaware.hasFeature;
-
 if (ti_wifiaware.hasFeature) {
-  ti_wifiaware.isAvailable();
-  ti_wifiaware.publish("com.miga.wifiaware");
-  ti_wifiaware.subscribe("");
-
+  label.text = "Feature available:" + ti_wifiaware.hasFeature;
+} else {
+  alert("No available");
 }
 
 ti_wifiaware.addEventListener("available", function(e){
@@ -34,7 +41,6 @@ ti_wifiaware.addEventListener("available", function(e){
 })
 
 ti_wifiaware.addEventListener("message", function(e){
-  console.log("text: " + e.text);
   label.text = e.text;
 })
 
