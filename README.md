@@ -10,7 +10,6 @@
 * send(text): send a message
 * publish(text): publish a channel
 * subscribe(text): subscribe to a channel
-*
 
 ## Properties
 * hasFeature (bool): if WiFi-Aware is available on the phone
@@ -21,7 +20,6 @@
 * subscribed
 * discovered
 * published
-
 
 ## Flow
 
